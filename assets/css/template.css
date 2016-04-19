@@ -1,0 +1,74 @@
+
+
+/* template style */
+
+body{
+	margin: 0;
+	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h1{
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+	width: 99%;
+	min-height: 20em;
+	margin: 0 auto;
+	padding: 0;
+	background-color: #ffff;
+}
+
+.header{
+	min-height: 4em;
+}
+
+.span1{
+	width: 19%;
+	float: left;
+	margin: 0.5%;
+}
+
+.span2{
+	width: 38%;
+	float: left;
+	margin: 0.5%;
+}
+
+.span3{
+	width: 57%;
+	float: left;
+	margin: 0.5%;
+}
+
+.span4{
+	width: 80.5%;
+	float: left;
+	margin: 0.5%;
+}
+
+.span5{
+	width: 99%;
+	float: left;
+	
+}
+
+ 
+.textbox {
+    height: 25px;
+	width: 100%;
+    border: transparent;
+    outline: 0;
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;
+    background: transparent;
+    
+    
+}
+
+.textbox:focus {
+    border-color: #C9C9C9;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px;
+}   
+
+

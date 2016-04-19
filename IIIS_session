@@ -1,0 +1,12 @@
+<NotepadPlus>
+    <Session activeView="0">
+        <mainView activeIndex="4">
+            <File firstVisibleLine="10" xOffset="0" scrollWidth="1992" startPos="1491" endPos="1491" selMode="0" lang="PHP" encoding="-1" filename="C:\wamp\www\IIIS\application\config\routes.php" backupFilePath="" originalFileLastModifTimestamp="1432094069" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1992" startPos="993" endPos="993" selMode="0" lang="PHP" encoding="-1" filename="C:\wamp\www\IIIS\application\views\sidebar.php" backupFilePath="" originalFileLastModifTimestamp="1432537452" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1258" startPos="205" endPos="205" selMode="0" lang="PHP" encoding="-1" filename="C:\wamp\www\IIIS\application\controllers\dashboard.php" backupFilePath="" originalFileLastModifTimestamp="1448272663" />
+            <File firstVisibleLine="18" xOffset="0" scrollWidth="888" startPos="828" endPos="828" selMode="0" lang="PHP" encoding="-1" filename="C:\wamp\www\IIIS\application\controllers\students.php" backupFilePath="" originalFileLastModifTimestamp="1450543482" />
+            <File firstVisibleLine="110" xOffset="0" scrollWidth="1992" startPos="2966" endPos="2966" selMode="0" lang="PHP" encoding="-1" filename="C:\wamp\www\IIIS\application\views\students\index.php" backupFilePath="" originalFileLastModifTimestamp="1450589864" />
+        </mainView>
+        <subView activeIndex="0" />
+    </Session>
+</NotepadPlus>

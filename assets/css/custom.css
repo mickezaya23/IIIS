@@ -1,0 +1,245 @@
+
+/* custom style */
+
+@import url("template.css");
+
+.header{
+	background-color: #575757; /*#f4a020;*/
+	margin: 0 0 !important;
+	border-bottom: 4px solid #858E96;
+	position: fixed;
+	z-index: 69;
+}
+
+.header #right-nav{
+	width: 30%;
+	height: 4em;
+	float: right;
+	margin-right: 20px;
+	border-right: solid 2px silver;
+	border-left: solid 2px silver;
+	/*background-color: #00aff0;
+	background-image: linear-gradient(to bottom, #00bafe, #00a0da);
+	background-repeat: repeat-x; */
+}
+
+#right-nav ul{
+	list-style-type: none;
+	float: right;
+	padding: 0;
+	color: white;
+	margin: 0;
+	height: inherit;
+}
+
+#right-nav ul li{
+	display: list-item;
+	height: 100%;
+	float: left;
+	margin: 0;
+}
+
+#right-nav a{
+	text-decoration: none;
+	color: #ffffff;
+	display: inline-block;
+	padding: 23px 10px;
+}
+
+#right-nav a:hover{
+	background-color: #ffffff;
+	color: silver;
+}
+	
+.left-sidebar{
+	margin: 0 !important;
+	position: relative;
+	top: 4em;
+	z-index: 1;
+	padding-top: 1em;
+	/*background-color: rgb(232, 232, 232); */
+	/*background-color: #00aff0; */
+	background-color: rgba(87, 87, 87, 0.65);
+	/*background-image: linear-gradient(to bottom, #00bafe, #00a0da);
+	background-repeat: repeat-y; */
+}
+
+#right-nav{
+	width: 30%;
+}
+
+.left-sidebar-content{
+	color: #ffffff;
+	font-size: 10pt;
+}
+
+.input-box{
+	border:0;
+	margin: 0 auto;
+	width: 90%;
+	border-bottom: 1px solid white;
+	background: url("../../assets/icons/magnifier12.svg") no-repeat right/17px 17px;
+}
+
+.textbox{
+	
+}
+
+.left-sidebar-content ul{
+	list-style-type: none;
+}
+
+.left-sidebar-content ul li{
+	border-bottom: 1px solid white;
+}
+
+.left-sidebar-content a{
+	text-decoration: none;
+	color: #ffffff;
+	display: block;
+	padding: 11px 50px;
+}
+
+.sidebar-nav{
+	padding: 0;
+	margin: 15px 0;
+}	
+
+.sidebar-nav a:hover{
+	background-color: white;
+	color: silver;
+}	
+
+#logs-container{
+	min-height: 10em;
+}
+
+.main-content{
+	position: relative;
+	top: 4em;
+	min-height: 50em;
+	width: 80.32% !important;
+	margin-right: 0px !important;
+	margin-top: 0px !important;
+	border-left: 1px solid silver;
+	border-right: 1px solid silver;
+}
+
+#breadcrumbs{
+	border-top: 1px solid silver;
+	border-bottom: 1px solid silver;
+	min-height: 2em;
+	position: relative;
+	top: 67px;
+	margin: 0;
+	
+	float: right !important;
+}
+
+#bulletin-board{
+	border-bottom: 1px solid silver;
+	min-height: 10em;
+}
+
+#active-classes{
+	border-bottom: 1px solid silver;
+	min-height: 13em;
+}
+
+#active-class-record{
+	
+}
+
+
+/* Students page styling */
+
+#student-content{
+	border:none !important;
+}
+#student-dashboard{
+	min-height: 10em;
+}
+
+.addStudBtn{
+	cursor:pointer;
+	background: #9ba0a3;
+    background-image: -webkit-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -moz-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -ms-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -o-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: linear-gradient(to bottom, #9ba0a3, #858585);
+  	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+ 	 border-radius: 0px;
+  	-webkit-box-shadow: 0px 1px 3px #666666;
+  	-moz-box-shadow: 0px 1px 3px #666666;
+  	box-shadow: 0px 1px 3px #666666;
+  	font-family: Arial;
+  	color: #ffffff;
+  	font-size: 24px;
+  	padding: 30px 15px 30px 15px;
+  	text-decoration: none;
+}
+
+.addStudBtn:hover{
+	background: #ffffff;
+ 	text-decoration: none;
+  	color:#9ba0a3;
+}	
+
+.studProfBtn{
+	cursor:pointer;
+	background: #9ba0a3;
+    background-image: -webkit-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -moz-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -ms-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: -o-linear-gradient(top, #9ba0a3, #858585);
+  	background-image: linear-gradient(to bottom, #9ba0a3, #858585);
+  	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+ 	 border-radius: 0px;
+  	-webkit-box-shadow: 0px 1px 3px #666666;
+  	-moz-box-shadow: 0px 1px 3px #666666;
+  	box-shadow: 0px 1px 3px #666666;
+  	font-family: Arial;
+  	color: #ffffff;
+  	font-size: 24px;
+  	padding: 30px 15px 30px 15px;
+  	text-decoration: none;
+}
+
+.studProfBtn:hover{
+	background: #ffffff;
+ 	text-decoration: none;
+  	color:#9ba0a3;
+}
+
+#studlist-header{
+	min-height: 4em;
+	background-color: #9ba0a3;
+}
+
+#student-list{
+	min-height: 20em;
+	border: solid 1px silver;
+}
+
+.defaultTable{
+	border-collapse: collapse;
+	border: solid 1px silver;
+	width: 100%;
+}
+
+.defaultTable tr{
+
+}
+.defaultTable th{
+	color: #575757;
+	border-top: solid 1px silver;
+	border-bottom: solid 1px silver;;
+}
+
+.defaultTable td{
+	text-align: center;
+	border: solid 1px silver;
+}
