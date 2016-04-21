@@ -71,4 +71,7 @@ h1{
     -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 8px;
 }   
 
+.inline-div{
+	display: inline-block;
+}
 

@@ -235,6 +235,7 @@
 }
 .defaultTable th{
 	color: #575757;
+	text-align: center;
 	border-top: solid 1px silver;
 	border-bottom: solid 1px silver;;
 }
@@ -242,4 +243,8 @@
 .defaultTable td{
 	text-align: center;
 	border: solid 1px silver;
+}
+
+.actions-menu{
+	margin-left: 3px;
 }
