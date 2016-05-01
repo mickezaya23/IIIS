@@ -13,8 +13,24 @@ class Student_model extends CI_Model{
 		return $query->result();
 	}
 
-	public function addStud(){
-
+	public function addStudent($studInfo){
+		$sql = "INSERT INTO student VALUES(";
+		$arrLen = count($studInfo);
+		$str = "";
+		for($x=0;$x<$arrLen;$x++){
+			if($x == $arrLen-1){
+				$str .= "'" .$studInfo[$x]. "'";
+			}else{
+				if($x == $arrLen-2){
+					$str .= $studInfo[$x] . ",";
+				}else{
+					$str .= '"' .$studInfo[$x] . '",';
+				}
+				
+			}
+		}
+		$sql .= $str . ")";
+		return $this->db->query($sql);	
 	}
 	
 }

@@ -25,25 +25,24 @@ class Students extends CI_Controller {
 
 	public function addStudent(){
 		$studInfo = $this->input->post('studentInfo');
-		$sql = "INSERT INTO student VALUES(";
-		$arrLen = count($studInfo);
-		$str = "";
-		for($x=0;$x<$arrLen;$x++){
-			if($x == $arrLen-1){
-				$str .= "'" .$studInfo[$x]. "'";
-			}else{
-				if($x == $arrLen-2){
-					$str .= $studInfo[$x] . ",";
-				}else{
-					$str .= '"' .$studInfo[$x] . '",';
-				}
-				
-			}
-		}
-		$sql .= $str . ")";
+		$result = $this->student_model->addStudent($studInfo);	
+		echo $result;
+	}
+
+	public function editStudent(){
+		$studInfo = $this->input->post('studentInfo');
+		$studOrigId = $this->input->post('studOrigId');
+		$sql = "UPDATE student 
+				SET id='$studInfo[0]',first_name='$studInfo[1]',
+				middle_name='$studInfo[2]',last_name='$studInfo[3]',
+				age=$studInfo[4],gender='$studInfo[5]'
+				WHERE id=$studOrigId";
 		$this->db->query($sql);		
-		//echo $this->db->affected_rows();
 		echo $sql;
+	}
+
+	public function deleteStudent(){
+
 	}
 }
 
