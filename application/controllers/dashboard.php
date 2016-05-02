@@ -17,6 +17,9 @@ class Dashboard extends CI_Controller {
 	}
 
 	
+	public function menu_selector(){
+		
+	}
 }
 
 /* End of file dashboard.php */

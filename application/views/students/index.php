@@ -24,8 +24,6 @@
 					<!-- Student data   -->
 				</table>
 			</div>
-		</div> 
-		<!-- end of main-content area -->
 
 		<!-- start of student modal -->
 		<div id="student-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="studLabel">
@@ -39,15 +37,15 @@
 						<form>
 							<div class="form-group">
 								<label for="idnum" class="control-label">ID No.</label>
-								<input type="text" id="idnum" name="idnum" class="form-control stud-info" required>
+								<input type="text" id="idnum" name="idnum" class="form-control stud-info required" required>
 							</div>
 							<div class="form-group">
 								<label for="lname" class="control-label">Last Name</label>
-								<input type="text" id="lname"name="lname" class="form-control stud-info" required>
+								<input type="text" id="lname"name="lname" class="form-control stud-info required">
 							</div>
 							<div class="form-group">
 								<label for="fname" class="control-label">First Name</label>
-								<input type="text" id="fname"name="fname" class="form-control stud-info" required>
+								<input type="text" id="fname"name="fname" class="form-control stud-info required" >
 							</div>
 							<div class="form-group">
 								<label for="mname" class="control-label">Middle Name</label>
@@ -65,13 +63,31 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<button type="button" class="btn btn-primary" id="saveStudBtn">Save</button>
+								<button type="button" class="btn btn-primary" id="saveStudBtn"  >Save</button>
 							</div>
 						</form>
 				</div>
 			</div>
 		</div>
+	</div>
 		<!-- end of add student modal -->
+
+		<!-- start of alert modal -->
+			<div id="alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="alertModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close close-stud-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="alert-title">Successful.</h4>
+						</div>
+						<div id="alert-msg" class="modal-body">Sample Content. </div>
+					</div>
+				</div>
+			</div>
+		<!-- end of alert modal -->
+
+	</div> 
+	<!-- end of main-content area -->
 
 <script>
 	$(document).ready(function(){
@@ -118,20 +134,51 @@
 	}
 
 	function saveStudData(){
-		var studInfo = document.getElementsByClassName("stud-info");   
-		var studInfoArr = [];
-		for(var x=0;x<studInfo.length;x++){
-			studInfoArr.push(studInfo[x].value);
+		//var result = validateForm();
+		//console.log(result);
+		if(validateForm()){
+			var studInfo = document.getElementsByClassName("stud-info");   
+			var studInfoArr = [];
+			for(var x=0;x<studInfo.length;x++){
+				studInfoArr.push(studInfo[x].value);
+			}
+			
+			$.ajax({
+				url: "students/addStudent",	
+				method: "POST",
+				data: { studentInfo: studInfoArr },
+				success: function(result){
+					ui_loadStudsTbl();
+					ui_alert(1,"Success");
+				},
+				error: function(result){
+					ui_alert(0,"Internal Server Error");
+				}
+			});
+		}	
+	}
+
+	function validateForm(){
+		var reqStudInfo = document.getElementsByClassName("stud-info required")
+		var valid = true;
+		for(var x=0;x<reqStudInfo.length;x++){
+			console.log($(reqStudInfo[x]).val());
+			if($(reqStudInfo[x]).val() == ""){
+				$(reqStudInfo[x]).attr("placeholder","Required");
+				valid = false;
+			}
 		}
+		return valid;
+	}
 
-		$.ajax({
-			url: "students/addStudent",	
-			method: "POST",
-			data: { studentInfo: studInfoArr }
-
-		}).done(function(result){
-			alert(result);
-		});
+	function ui_alert(type,msg){
+		$("#alert-msg").html(msg);
+		if(type == 0){
+			$("#alert-title").text("Failed.");
+		}else{
+			$("#alert-title").text("Successful.");
+		}
+		$("#alert-modal").show();
 	}
 
 	function editStudData(){
@@ -280,6 +327,8 @@
 			studInfoInput[x].value = '';
 		}
 	}
+
+	
 
 });
  </script>

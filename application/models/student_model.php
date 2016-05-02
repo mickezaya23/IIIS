@@ -30,7 +30,12 @@ class Student_model extends CI_Model{
 			}
 		}
 		$sql .= $str . ")";
-		return $this->db->query($sql);	
+		$query = $this->db->query($sql);	
+		if($query->num_rows() > 0){
+			return $query;
+		}else{
+			return 0;
+		}
 	}
 	
 }
