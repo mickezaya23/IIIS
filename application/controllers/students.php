@@ -46,7 +46,9 @@ class Students extends CI_Controller {
 	}
 
 	public function deleteStudent(){
-
+		$studId = $this->input->post('studId');
+		$result = $this->student_model->deleteStudent($studId);
+		echo $result;
 	}
 }
 

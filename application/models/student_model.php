@@ -38,6 +38,12 @@ class Student_model extends CI_Model{
 		}
 	}
 	
+	public function deleteStudent($studId){
+		$sql = "DELETE FROM student
+			WHERE id='".$studId."'";
+		$query = $this->db->query($sql);
+		return $query;
+	}
 }
 
 ?>

@@ -86,6 +86,24 @@
 			</div>
 		<!-- end of alert modal -->
 
+		<!-- start of confirm modal -->
+			<div id="confirm-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmModal">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close close-stud-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="confirm-title">Sample Title</h4>
+						</div>
+						<div id="confirm-msg" class="modal-body">
+							<h4>Sample</h4>
+							<button type="button" class="btn btn-primary yes-btn">Yes</button>
+							<button type="button" class="btn btn-primary no-btn">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- end of confirm modal -->
+
 	</div> 
 	<!-- end of main-content area -->
 
@@ -106,18 +124,22 @@
 	function attachHandlers(){
 		$("#addStudBtn").on({
 			click: ui_addStudent
-		});
+		})
 		$(".close-stud-modal").on({
 			click: ui_clearModal
 		})
 		$(".rt-search").on({
 			keyup: ui_searchStud,	
 		})
+		$(".modal").on('hide.bs.modal',ui_clearModal)
 	}
 
 	function attachTblHandlers(){
 		$(".editStudLink").on({
 			click: ui_editStudent
+		})
+		$(".deleteStudLink").on({
+			click: ui_deleteStudent
 		})
 	}
 
@@ -134,8 +156,6 @@
 	}
 
 	function saveStudData(){
-		//var result = validateForm();
-		//console.log(result);
 		if(validateForm()){
 			var studInfo = document.getElementsByClassName("stud-info");   
 			var studInfoArr = [];
@@ -178,27 +198,36 @@
 		}else{
 			$("#alert-title").text("Successful.");
 		}
-		$("#alert-modal").show();
+		$("#alert-modal").modal('show');
+		setTimeout(function(){
+			$("#alert-modal").modal('hide');
+		},"1500");
 	}
 
 	function editStudData(){
-		var studInfo = document.getElementsByClassName("stud-info");   
-		var studInfoArr = [];
-		for(var x=0;x<studInfo.length;x++){
-			studInfoArr.push(studInfo[x].value);
-		}
-
-		$.ajax({
-			url: "students/editStudent",	
-			method: "POST",
-			data: { 
-				studentInfo: studInfoArr,
-				studOrigId: tempStudId 
+		if(validateForm()){
+			var studInfo = document.getElementsByClassName("stud-info");   
+			var studInfoArr = [];
+			for(var x=0;x<studInfo.length;x++){
+				studInfoArr.push(studInfo[x].value);
 			}
 
-		}).done(function(result){
-			alert(result);
-		});
+			$.ajax({
+				url: "students/editStudent",	
+				method: "POST",
+				data: { 
+					studentInfo: studInfoArr,
+					studOrigId: tempStudId 
+				},
+				success: function(response){
+					ui_loadStudsTbl();
+					$(".modal").modal('hide');
+					ui_alert(1,"Student record successfully updated.");
+				}
+			}).done(function(result){
+				
+			});
+		}
 	}
 
 	function searchStudId(studId){
@@ -221,6 +250,24 @@
 			}
 		}
 		return studData;
+	}
+
+	function deleteStudent(){
+		var studId = $(this).attr("id");
+		$.ajax({
+			url: "students/deleteStudent",
+			method: "POST",
+			data: {
+				studId: studId
+			},
+			success: function(response){
+				ui_loadStudsTbl();
+				$("#confirm-modal").modal('hide');
+				ui_alert(1,"Student record successfully deleted.");
+			}
+		}).done(function(result){
+			
+		});
 	}
 
 	function ui_addStudent(){
@@ -256,6 +303,22 @@
 		$("#saveStudBtn").on({
 			click: editStudData
 		})
+	}
+
+	function ui_deleteStudent(){
+		var studId = $(this).attr("id");
+		var msg="Are you sure you want to delete this student record?";
+		var title="Confirm Deletion";
+		$("#confirm-title").text(title);
+		$("#confirm-msg > h4").text(msg);
+
+		$(".yes-btn").attr("id",studId);
+		$(".yes-btn").on({
+			click: deleteStudent
+		})
+
+		$("#confirm-modal").modal('show');
+
 	}
 
 	function ui_searchStud(){
@@ -315,7 +378,7 @@
 		var tData = "<td>";
 		tData +=
 			"<div class='inline-div actions-menu'><a href='' class='editStudLink' data-toggle='modal' data-target='#student-modal' id='"+studId+"'>Edit</a></div>" +
-			"<div class='inline-div actions-menu'><a href=''id='deleteStudLink'>Delete</a></div>";
+			"<div class='inline-div actions-menu'><a href='' id='"+studId+"' class='deleteStudLink' data-toggle='modal'>Delete</a></div>";
 		tData += "</td>";
 
 		return tData;
@@ -325,6 +388,7 @@
 		var studInfoInput = document.getElementsByClassName("stud-info");
 		for(var x=0;x<studInfoInput.length;x++){
 			studInfoInput[x].value = '';
+			studInfoInput[x].placeholder = '';
 		}
 	}
 
