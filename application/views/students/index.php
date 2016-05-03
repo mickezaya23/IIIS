@@ -241,15 +241,38 @@
 		return studData;
 	}
 
+	function ui_searchStud(){
+		var toSearch = $(".rt-search").val();
+		var searchT = $(".rt-sfilter").val();
+		var tRow = "";
+
+		if(toSearch == ""){
+			ui_loadStudsTbl();
+		}else{
+			if(searchT == "id"){
+				tRow += ui_loadStudTbl(searchStudId(toSearch));
+			}else{
+				var resultSet = searchStudName(toSearch);
+				for(var x=0;x<resultSet.length;x++){
+					tRow += ui_loadStudTbl(resultSet[x]);
+				}
+			}
+			ui_resetStudsTbl();
+			$("#studListTable").append(tRow);
+			attachTblHandlers();
+		}
+	}
+
 	function searchStudName(studName){
 		var studData = -1;
+		var resultSet = [];
 		for(var x=0;x<students.length;x++){
-			if(students[x].last_name == studId){
+			if(students[x].last_name == studName || students[x].first_name == studName || students[x].middle_name == studName){
 				studData = students[x];
-				break;
+				resultSet.push(studData);
 			}
 		}
-		return studData;
+		return resultSet;
 	}
 
 	function deleteStudent(){
@@ -319,20 +342,6 @@
 
 		$("#confirm-modal").modal('show');
 
-	}
-
-	function ui_searchStud(){
-		var toSearch = $(".rt-search").val();
-		var searchT = $(".rt-sfilter").val();
-
-		if(toSearch == ""){
-			ui_loadStudsTbl();
-		}else{
-			var tRow = ui_loadStudTbl(searchStudId(toSearch));
-			ui_resetStudsTbl();
-			$("#studListTable").append(tRow);
-			attachTblHandlers();
-		}
 	}
 
 	function ui_loadStudTbl(student){
