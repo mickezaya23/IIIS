@@ -20,7 +20,7 @@
 					</select>
 					</form>
 				</div>
-				<table id="studListTable" class="defaultTable">
+				<table id="studListTable" class="defaultTable table table-bordered table-hover">
 					<!-- Student data   -->
 				</table>
 			</div>
@@ -32,6 +32,8 @@
 					<div class="modal-header">
 						<button type="button" class="close close-stud-modal" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="studLabel">Add Student</h4>
+						<button type="button" class="btn import-csv" style="display:none">Import CSV File</button>
+						<input id="csvfile" type="file" name="csvfile" style="display:none" />
 					</div>
 					<div class="modal-body">
 						<form>
@@ -108,6 +110,8 @@
 	<!-- end of main-content area -->
 
 <script>
+
+
 	$(document).ready(function(){
 		
 		/* global array that holds student information */
@@ -129,7 +133,13 @@
 			click: ui_clearModal
 		})
 		$(".rt-search").on({
-			keyup: ui_searchStud,	
+			keyup: ui_searchStud	
+		})
+		$(".import-csv").on({
+			click: ui_importCsv
+		})
+		$("#csvfile").on({
+			change: importCsv
 		})
 		$(".modal").on('hide.bs.modal',ui_clearModal)
 	}
@@ -143,9 +153,56 @@
 		})
 	}
 
+	function importCsv(){
+		var file_data = $("#csvfile").prop('files')[0];
+		var form_data = new FormData();
+		form_data.append('file', file_data);
+		//console.log(file_data);
+
+		$.ajax({
+			url: 'student/addByCsv',
+			method: "POST",
+			data:  form_data,
+			cache: "false",
+			contentType: false,
+			dataType: 'text',
+			processData: false,
+			success: function(response){
+				ui_loadStudsTbl();
+				var results = JSON.parse(response);
+				var rowAdded = results['rowAdded'];
+				var rowSkipped = results['rowSkipped'];
+				var rowsAddedStr = "";
+					for(var x=0;x<rowAdded.length;x++){
+						rowsAddedStr += rowAdded[x].id + "\t";
+						rowsAddedStr += rowAdded[x].last_name + "<br/>";
+					}
+				var rowsSkippedStr = "";
+					for(var x=0;x<rowSkipped.length;x++){
+						rowsSkippedStr += rowSkipped[x].id + "\t";
+						rowsSkippedStr += rowSkipped[x].last_name + "<br/>";
+					}
+				var resultMsg = "No. of records added: " + rowAdded.length + 
+								"<br/>" + rowsAddedStr + 
+								"<br/>"  + "No. of duplicate records skipped: " + rowSkipped.length +
+								"<br/>" + rowsSkippedStr;
+				ui_alert(1,resultMsg);
+				console.log();
+			},
+			error:function(response){
+				ui_alert(0,response);
+				console.log("\n" + response.responseText);
+			}
+		})
+	}
+
+	function ui_importCsv(){	
+		$("#csvfile").click();
+	}
+
 	function loadStuds(){
 		$.ajax({
-			url: "students/loadStuds",
+			url: "student/loadStuds",
 			method: "GET",
 			cache: false,
 			async: false
@@ -164,7 +221,7 @@
 			}
 			
 			$.ajax({
-				url: "students/addStudent",	
+				url: "student/addStudent",	
 				method: "POST",
 				data: { studentInfo: studInfoArr },
 				success: function(result){
@@ -182,7 +239,6 @@
 		var reqStudInfo = document.getElementsByClassName("stud-info required")
 		var valid = true;
 		for(var x=0;x<reqStudInfo.length;x++){
-			console.log($(reqStudInfo[x]).val());
 			if($(reqStudInfo[x]).val() == ""){
 				$(reqStudInfo[x]).attr("placeholder","Required");
 				valid = false;
@@ -201,7 +257,7 @@
 		$("#alert-modal").modal('show');
 		setTimeout(function(){
 			$("#alert-modal").modal('hide');
-		},"1500");
+		},"150000");
 	}
 
 	function editStudData(){
@@ -213,7 +269,7 @@
 			}
 
 			$.ajax({
-				url: "students/editStudent",	
+				url: "student/editStudent",	
 				method: "POST",
 				data: { 
 					studentInfo: studInfoArr,
@@ -230,6 +286,34 @@
 		}
 	}
 
+	function ui_editStudent(){
+		var studId = $(this).attr("id");
+		tempStudId = studId;
+		console.log(tempStudId);
+		var studData = searchStudId(studId);
+		var studDataArr = [];
+
+		/* extract studData object to array for convenient use 
+		in automatically populating stud-info input boxes */
+		for(var x in studData){
+			studDataArr.push(studData[x]);
+		}
+
+		/* populate stud-info input boxes w/ student data  */
+		var studInfoInput = document.getElementsByClassName("stud-info");
+		for(var x=0;x<studInfoInput.length;x++){
+			studInfoInput[x].value = studDataArr[x];
+			//console.log(studDataArr[x]);
+		}
+
+		$("#studLabel").text("Edit Student Info");
+		$(".import-csv").attr("style","display:none");
+		$("#saveStudBtn").unbind('click');
+		$("#saveStudBtn").on({
+			click: editStudData
+		})
+	}
+
 	function searchStudId(studId){
 		var studData = -1;
 		for(var x=0;x<students.length;x++){
@@ -240,6 +324,7 @@
 		}
 		return studData;
 	}
+
 
 	function ui_searchStud(){
 		var toSearch = $(".rt-search").val();
@@ -267,7 +352,10 @@
 		var studData = -1;
 		var resultSet = [];
 		for(var x=0;x<students.length;x++){
-			if(students[x].last_name == studName || students[x].first_name == studName || students[x].middle_name == studName){
+			var subLname = students[x].last_name.substring(0,studName.length);
+			var subFname = students[x].first_name.substring(0,studName.length);
+			var subMname = students[x].middle_name.substring(0,studName.length);
+			if( subMname == studName || subFname == studName || subLname == studName){
 				studData = students[x];
 				resultSet.push(studData);
 			}
@@ -275,10 +363,19 @@
 		return resultSet;
 	}
 
+	/*function compareChar(str){
+
+		for(var x=0;x<sudents.length;x++){
+			if(students[x].last_name.substring(0,str.length) == str){
+
+			}
+		}	
+	}*/
+
 	function deleteStudent(){
 		var studId = $(this).attr("id");
 		$.ajax({
-			url: "students/deleteStudent",
+			url: "student/deleteStudent",
 			method: "POST",
 			data: {
 				studId: studId
@@ -295,36 +392,10 @@
 
 	function ui_addStudent(){
 		$("#studLabel").text("Add Student");
+		$(".import-csv").attr("style","display:block");
 		$("#saveStudBtn").unbind('click');
 		$("#saveStudBtn").on({
 			click: saveStudData
-		})
-	}
-
-	function ui_editStudent(){
-		var studId = $(this).attr("id");
-		tempStudId = studId;
-		console.log(tempStudId);
-		var studData = searchStudId(studId);
-		var studDataArr = [];
-
-		/* extract studData object to array for convenient use 
-		in automatically populating stud-info input boxes */
-		for(var x in studData){
-			studDataArr.push(studData[x]);
-		}
-
-		/* populate stud-info input boxes w/ student data  */
-		var studInfoInput = document.getElementsByClassName("stud-info");
-		for(var x=0;x<studInfoInput.length;x++){
-			studInfoInput[x].value = studDataArr[x];
-			console.log(studDataArr[x]);
-		}
-
-		$("#studLabel").text("Edit Student Info");
-		$("#saveStudBtn").unbind('click');
-		$("#saveStudBtn").on({
-			click: editStudData
 		})
 	}
 

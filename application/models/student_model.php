@@ -37,6 +37,27 @@ class Student_model extends CI_Model{
 			return 0;
 		}
 	}
+
+	public function searchById($studId){
+		$sql = "SELECT * FROM student
+				WHERE id='$studId'";
+		$query = $this->db->query($sql);
+		return $query->result();
+	}
+
+	public function editStudent($studInfo,$studOrigId){
+		$sql = "UPDATE student 
+				SET id='$studInfo[0]',last_name='$studInfo[1]',
+				first_name='$studInfo[2]',middle_name='$studInfo[3]',
+				age=$studInfo[4],gender='$studInfo[5]'
+				WHERE id='$studOrigId'";
+		$this->db->query($sql);		
+		echo $sql;
+	}
+
+	public function addByCsv($csvFile){
+
+	}
 	
 	public function deleteStudent($studId){
 		$sql = "DELETE FROM student

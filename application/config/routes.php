@@ -39,7 +39,8 @@
 */
 
 
-$route['students'] = 'students';
+$route['course'] = 'course';
+$route['student'] = 'student';
 $route['404_override'] = '';
 $route['dashboard'] = "dashboard";
 $route['default_controller'] = "dashboard";

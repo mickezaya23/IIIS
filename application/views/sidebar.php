@@ -18,7 +18,7 @@
 							<a href="">CLASSES</a>
 						</li>
 						<li>
-							<a href="students">STUDENTS</a>
+							<a href="student">STUDENTS</a>
 						</li>
 						<li>
 							<a href="">GRADES</a>
@@ -27,7 +27,7 @@
 							<a href="">SUBJECTS</a>
 						</li>
 						<li>
-							<a href="">COURSES</a>
+							<a href="course">COURSES</a>
 						</li>
 						<li>
 							<a href="">REPORTS</a>

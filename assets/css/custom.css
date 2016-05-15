@@ -153,15 +153,15 @@
 
 /* Students page styling */
 
-#student-content{
+#student-content, #course-content{
 	border:none !important;
 }
-#student-dashboard{
+#student-dashboard, #course-dashboard{
 	min-height: 10em;
 	margin-top: 13px;
 }
 
-.addStudBtn{
+.addStudBtn , .addCourseBtn{
 	cursor:pointer;
 	background: #9ba0a3;
     background-image: -webkit-linear-gradient(top, #9ba0a3, #858585);
@@ -182,13 +182,13 @@
   	text-decoration: none;
 }
 
-.addStudBtn:hover{
+.addStudBtn:hover , .addCourseBtn:hover{
 	background: #ffffff;
  	text-decoration: none;
   	color:#9ba0a3;
 }	
 
-.studProfBtn{
+.studProfBtn, .courseProfBtn{
 	cursor:pointer;
 	background: #9ba0a3;
     background-image: -webkit-linear-gradient(top, #9ba0a3, #858585);
@@ -209,18 +209,18 @@
   	text-decoration: none;
 }
 
-.studProfBtn:hover{
+.studProfBtn:hover , .courseProfBtn:hover{
 	background: #ffffff;
  	text-decoration: none;
   	color:#9ba0a3;
 }
 
-#studlist-header{
+#studlist-header, #courselist-header{
 	min-height: 4em;
 	background-color: #9ba0a3;
 }
 
-#student-list{
+#student-list, #course-list{
 	min-height: 20em;
 	border: solid 1px silver;
 }
