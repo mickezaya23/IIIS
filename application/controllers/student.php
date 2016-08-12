@@ -2,10 +2,14 @@
 
 class Student extends CI_Controller {
 
+	private $default_results_limit = null;
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('url');
 		$this->load->model('student_model');
+
+		$this->default_results_limit = 15;
 	}
 
 	public function index()
@@ -16,10 +20,24 @@ class Student extends CI_Controller {
 		$this->load->view('footer'); 
 	}
 
-	public function loadStuds(){
+	/*public function loadStuds(){
 		
 		$data['results'] = $this->student_model->loadStuds();
 
+		echo json_encode($data);
+	}*/
+
+	public function loadStuds(){
+		$startPos = $this->input->post('startPos');
+		$order = $this->input->post('orderBy');
+		$orderPattern = $this->input->post('orderPattern');
+		$limit = $this->default_results_limit;
+		$data['results'] = $this->student_model->loadStuds($startPos,$limit,$order,$orderPattern);
+		echo json_encode($data);
+	}
+
+	public function getStudCount(){
+		$data['studCount'] = $this->student_model->getCount();
 		echo json_encode($data);
 	}
 
@@ -33,18 +51,32 @@ class Student extends CI_Controller {
 		}
 	}
 
-	public function searchById($_studId){
-		$studId = "";
-		if($this->input->post('studId')){
-			$studId = $this->input->post('studId');
-		}else{
-			$studId = $_studId;
-		}
+	public function aj_searchById(){
+		$studId = $this->input->post('studId');
+		$startPos = $this->input->post('startPos');
+		$order = $this->input->post('orderBy');
+		$orderPattern = $this->input->post('orderPattern');
+		$queryResult = $this->searchById($studId,$startPos,$order,$orderPattern);
 
-		$queryResult = $this->student_model->searchById($studId);
+		echo json_encode($queryResult);
+	}
 
+	public function searchById($studId,$startPos=0,$order="id",$orderPattern="ASC"){
+		$limit = $this->default_results_limit;
+		$queryResult = $this->student_model->searchById($studId,$startPos,$order,$orderPattern,$limit);
 		return $queryResult;
+	}
 
+	public function aj_searchIndivId(){
+		$studId = $this->input->post('studId');
+		$queryResult = $this->searchIndivId($studId);
+		$data['results'] = $queryResult;
+		echo json_encode($data);
+	}
+
+	public function searchIndivId($studId){
+		$queryResult = $this->student_model->searchIndivId($studId);
+		return $queryResult;
 	}
 
 	public function editStudent(){
@@ -85,7 +117,7 @@ class Student extends CI_Controller {
 		while(($row = fgetcsv($file,"500",","))){
 			if($rowCount > 0){
 				$id = $row[0];		//student ID
-				$searchResult = $this->searchById($id);
+				$searchResult = $this->searchIndivId($id);
 		
 				if(empty($searchResult)){
 					$age = $row[2]; $gender = $row[3];

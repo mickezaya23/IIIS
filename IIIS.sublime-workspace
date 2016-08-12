@@ -1,0 +1,367 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"query",
+				"queryResult"
+			],
+			[
+				"ord",
+				"orderPattern"
+			],
+			[
+				"loadSutd",
+				"ui_loadStudsTbl"
+			],
+			[
+				"order",
+				"resultsOrder"
+			],
+			[
+				"studCount",
+				"studCountTotal"
+			],
+			[
+				"response",
+				"responseText"
+			],
+			[
+				"url",
+				"urlencode"
+			],
+			[
+				"studInfo",
+				"studInfoInput"
+			],
+			[
+				"save",
+				"saveStudData"
+			],
+			[
+				"addStud",
+				"addStudBtn"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "application/controllers/student.php",
+			"settings":
+			{
+				"buffer_size": 4252,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/models/student_model.php",
+			"settings":
+			{
+				"buffer_size": 3043,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "application/config/config.php",
+			"settings":
+			{
+				"buffer_size": 12821,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/wamp/www/IIIS/application/views/utilities/alert-modals.php",
+		"/C/wamp/www/IIIS/application/controllers/students.php",
+		"/C/wamp/www/PubFox/application/config/routes.php",
+		"/C/wamp/www/dynamicWeb/controller.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/content.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/includes/footer.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/includes/functions.php",
+		"/C/wamp/www/PubFox/index.php",
+		"/C/wamp/www/PubFox/application/core/My_Controller.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/includes/connection.php",
+		"/C/wamp/www/basicCMS2/controller.php",
+		"/C/wamp/www/basicCMS2/home.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/includes/constants.php",
+		"/I/basicCMS2/home.php",
+		"/C/wamp/www/IIIS/application/controllers/dashboard.php",
+		"/C/wamp/www/IIIS/application/views/dashboard/index.php",
+		"/C/wamp/www/IIIS/application/models/student_model.php",
+		"/C/wamp/www/IIIS/system/core/Config.php",
+		"/C/wamp/www/IIIS/application/views/students/index.php",
+		"/C/wamp/www/ajaxOnlineUsers/writeFile.php",
+		"/F/MJ23/Archived Systems/UAOA/user/index.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_11/11_05_php_sandbox-final/firstpage.php",
+		"/F/MJ23/Archived Systems/UAOA/user/home.php",
+		"/C/wamp/www/basicCMS/index.php",
+		"/F/Library/IT Library/Lynda.com.PHP.With.MySQL.Essential.Training.DVD/Exercise Files/Exercise Files/Exercise Files/chapter_12/12_12_widget_corp-final/staff.php",
+		"/C/wamp/www/IIIS/application/config/config.php",
+		"/C/wamp/www/UAOA/users/signIn.php",
+		"/C/wamp/www/UAOA/users/home.php",
+		"/F/MJ23/Archived Systems/UAOA/DEAN/login_process.php",
+		"/C/wamp/www/IIIS/application/views/header.php",
+		"/C/wamp/www/ajaxOnlineUsersJson/writeJSON.php",
+		"/F/MJ23/Archived Systems/UAOA/DEAN/home.php",
+		"/F/MJ23/Archived Systems/UAOA/user/forgot_password.php",
+		"/F/MJ23/Archived Systems/UAOA/user/update_faculty_process.php",
+		"/F/MJ23/Archived Systems/PubFox/application/controllers/editor.php",
+		"/C/wamp/www/IIIS/application/config/database.php",
+		"/C/Users/mickez/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 32.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"studId",
+			"												",
+			"						\n",
+			"select",
+			"option",
+			"$studInfo",
+			"student",
+			">\"\n",
+			">\n",
+			">\";",
+			"Name",
+			"button",
+			">\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"$courseInfo",
+			"course"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "application/controllers/student.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4252,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								680,
+								680
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 153.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "application/models/student_model.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3043,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								530,
+								530
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "application/config/config.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12821,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								883,
+								883
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 375.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 32.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "IIIS.sublime-project",
+	"replace":
+	{
+		"height": 60.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 188.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

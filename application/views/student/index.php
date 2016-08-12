@@ -12,17 +12,21 @@
 			</div>
 			<div id="student-list">
 				<div id="studlist-header">
-					<form action="post" name="sample"> 
-					<input type="text" name="studSearch" id="studSearch" class="rt-search"> 	
-					<select id="studSearchFilter" class="rt-sfilter">
-						<option value="name">Name</option>
+					<label>Search:</label><input type="text" name="studSearch" id="studSearch" class="rt-search" placeholder="Enter Name or ID.."> 	
+					<label>Sort by:</label><select id="resultsOrder">
 						<option value="id">ID Number</option>
+						<option value="last_name">Name</option>
+						<option value="date_added">Date Added</option>
 					</select>
-					</form>
+					<select id="orderPattern">
+						<option value="ASC">Ascending</option>
+						<option value="DESC">Descending</option>
+					</select>
 				</div>
 				<table id="studListTable" class="defaultTable table table-bordered table-hover">
 					<!-- Student data   -->
 				</table>
+				<div id="tblLinks"><!-- Table pagination --> </div>
 			</div>
 
 		<!-- start of student modal -->
@@ -114,15 +118,17 @@
 
 	$(document).ready(function(){
 		
-		/* global array that holds student information */
-		var students = [];
+		/* globals declaration*/
+		var studCountTotal = 0;
 		var tempStudId = -1;
+		var controllerName = "student";
 
 		/* load students info from DB and present them in tabular form */
-		ui_loadStudsTbl();
+		loadStuds();
 		/* dynamically attach event handlers to some elements */
 		attachHandlers();
 	
+
 	/* start of function definitions */
 
 	function attachHandlers(){
@@ -133,7 +139,30 @@
 			click: ui_clearModal
 		})
 		$(".rt-search").on({
-			keyup: ui_searchStud	
+			keyup: ui_searchStud,
+			focus: function(){
+				if($(".rt-search").val() != ""){
+					ui_searchStud();
+				}
+			}	
+		})
+		$("#resultsOrder").on({
+			change: function(){
+				if($(".rt-search").val() === ""){
+					loadStuds();	
+				}else{
+					ui_searchStud();
+				}
+			}
+		})
+		$("#orderPattern").on({
+			change: function(){
+				if($(".rt-search").val() === ""){
+					loadStuds();	
+				}else{
+					ui_searchStud();
+				}
+			}
 		})
 		$(".import-csv").on({
 			click: ui_importCsv
@@ -157,10 +186,9 @@
 		var file_data = $("#csvfile").prop('files')[0];
 		var form_data = new FormData();
 		form_data.append('file', file_data);
-		//console.log(file_data);
 
 		$.ajax({
-			url: 'student/addByCsv',
+			url: controllerName + '/addByCsv',
 			method: "POST",
 			data:  form_data,
 			cache: "false",
@@ -168,7 +196,7 @@
 			dataType: 'text',
 			processData: false,
 			success: function(response){
-				ui_loadStudsTbl();
+				loadStuds();
 				var results = JSON.parse(response);
 				var rowAdded = results['rowAdded'];
 				var rowSkipped = results['rowSkipped'];
@@ -187,7 +215,6 @@
 								"<br/>"  + "No. of duplicate records skipped: " + rowSkipped.length +
 								"<br/>" + rowsSkippedStr;
 				ui_alert(1,resultMsg);
-				console.log();
 			},
 			error:function(response){
 				ui_alert(0,response);
@@ -196,20 +223,9 @@
 		})
 	}
 
-	function ui_importCsv(){	
-		$("#csvfile").click();
-	}
+	function ui_importCsv(){
 
-	function loadStuds(){
-		$.ajax({
-			url: "student/loadStuds",
-			method: "GET",
-			cache: false,
-			async: false
-		}).done(function(result){
-			students = JSON.parse(result);
-			students = students['results'];
-		})
+		$("#csvfile").click();
 	}
 
 	function saveStudData(){
@@ -221,11 +237,11 @@
 			}
 			
 			$.ajax({
-				url: "student/addStudent",	
+				url: controllerName + "/addStudent",	
 				method: "POST",
 				data: { studentInfo: studInfoArr },
 				success: function(result){
-					ui_loadStudsTbl();
+					loadStuds();
 					ui_alert(1,"Success");
 				},
 				error: function(result){
@@ -269,14 +285,14 @@
 			}
 
 			$.ajax({
-				url: "student/editStudent",	
+				url: controllerName + "/editStudent",	
 				method: "POST",
 				data: { 
 					studentInfo: studInfoArr,
 					studOrigId: tempStudId 
 				},
 				success: function(response){
-					ui_loadStudsTbl();
+					loadStuds();
 					$(".modal").modal('hide');
 					ui_alert(1,"Student record successfully updated.");
 				}
@@ -303,7 +319,6 @@
 		var studInfoInput = document.getElementsByClassName("stud-info");
 		for(var x=0;x<studInfoInput.length;x++){
 			studInfoInput[x].value = studDataArr[x];
-			//console.log(studDataArr[x]);
 		}
 
 		$("#studLabel").text("Edit Student Info");
@@ -311,44 +326,70 @@
 		$("#saveStudBtn").unbind('click');
 		$("#saveStudBtn").on({
 			click: editStudData
-		})
+		}) 
 	}
 
-	function searchStudId(studId){
+	function searchStudId(studId){  
 		var studData = -1;
-		for(var x=0;x<students.length;x++){
-			if(students[x].id == studId){
-				studData = students[x];
-				break;
+
+		$.ajax({
+			url: controllerName + "/aj_searchIndivId",
+			method: "POST",
+			async: false,
+			data:{
+				studId: studId
+			},
+			success: function(response){
+				var data = JSON.parse(response);
+				studData = data['results'];
+				studData = studData[0];
+				
 			}
-		}
+		})
+		
 		return studData;
 	}
-
 
 	function ui_searchStud(){
 		var toSearch = $(".rt-search").val();
 		var searchT = $(".rt-sfilter").val();
+		var orderBy = $("#resultsOrder").val();
+		var orderPattern = $("#orderPattern").val();
 		var tRow = "";
 
 		if(toSearch == ""){
-			ui_loadStudsTbl();
+			loadStuds();
 		}else{
-			if(searchT == "id"){
-				tRow += ui_loadStudTbl(searchStudId(toSearch));
-			}else{
-				var resultSet = searchStudName(toSearch);
-				for(var x=0;x<resultSet.length;x++){
-					tRow += ui_loadStudTbl(resultSet[x]);
-				}
+			var searchDetail = {
+				'sKey': toSearch,
+				'sType': searchT,
+				'orderBy': orderBy,
+				'orderPattern': orderPattern
 			}
-			ui_resetStudsTbl();
-			$("#studListTable").append(tRow);
-			attachTblHandlers();
+			searchStud(searchDetail);
 		}
 	}
 
-	function searchStudName(studName){
+/*	function searchStud(sKey,sType){
+		var studData = -1;
+		var resultSet = [];
+		var studProps = ["id","last_name","first_name","middle_name"];
+		var startPos = (sType == "name") ? 1 : 0;
+		var endPos = (sType == "name") ? 4 : 1;
+		
+		for(var x=0;x<students.length;x++){
+			var studObj = students[x];
+			for(var y=startPos; y<endPos; y++){
+				var substrProp = studObj[studProps[y]].substring(0,sKey.length);
+				if(substrProp.toUpperCase() == sKey.toUpperCase())
+					resultSet.push(studObj);
+			}
+		}
+		return resultSet;
+	}
+*/
+	
+/*	function searchStudName(studName){
 		var studData = -1;
 		var resultSet = [];
 		for(var x=0;x<students.length;x++){
@@ -361,27 +402,18 @@
 			}
 		}
 		return resultSet;
-	}
-
-	/*function compareChar(str){
-
-		for(var x=0;x<sudents.length;x++){
-			if(students[x].last_name.substring(0,str.length) == str){
-
-			}
-		}	
-	}*/
+	} */
 
 	function deleteStudent(){
 		var studId = $(this).attr("id");
 		$.ajax({
-			url: "student/deleteStudent",
+			url: controllerName + "/deleteStudent",
 			method: "POST",
 			data: {
 				studId: studId
 			},
 			success: function(response){
-				ui_loadStudsTbl();
+				loadStuds();
 				$("#confirm-modal").modal('hide');
 				ui_alert(1,"Student record successfully deleted.");
 			}
@@ -425,10 +457,137 @@
 		tRow += ui_attachActions(student.id);
 		tRow += "</tr>";
 		return tRow;
+
 	}
 
-	function ui_loadStudsTbl(){
-		loadStuds();
+	function loadStuds(startPos=0,orderBy="id",orderPattern="ASC"){
+
+		getStudCount();
+		var orderBy = $("#resultsOrder").val();
+		var orderPattern = $("#orderPattern").val();
+
+		$.ajax({
+			url: controllerName + "/loadStuds",
+			method: "POST",
+			async: false,
+			data: {
+				startPos: startPos,
+				orderBy: orderBy,
+				orderPattern: orderPattern
+			},
+			success: function(response){
+				var students = JSON.parse(response);
+				students = students['results'];
+				ui_loadStudsTbl(students,"loadStuds");
+				//ui_buildTblLinks();
+			},
+			error: function(response){
+				ui_alert(0,response.responseText);
+				console.log(response);
+			}
+		}).done(function(result){
+			
+		})
+	}
+
+	function searchStud(searchDetail){
+		if(!(searchDetail.hasOwnProperty("startPos"))){
+			searchDetail['startPos'] = 0;
+		}else{
+			searchDetail['sKey'] = $(".rt-search").val();
+			searchDetail['sType'] = $(".rt-sfilter").val();
+			searchDetail['orderBy'] = $("#resultsOrder").val();
+			searchDetail['orderPattern'] = $("#orderPattern").val();
+		}
+		$.ajax({
+			url: controllerName + "/aj_searchById",
+			data:{
+				studId: searchDetail.sKey,
+				startPos: searchDetail.startPos,
+				orderBy: searchDetail.orderBy,
+				orderPattern: searchDetail.orderPattern 
+			},
+			method: "POST",
+			async: false,
+			success: function(response){
+				var results = JSON.parse(response);
+				students = results['limitedRows'];
+				studCountTotal = results['totalRows'];
+				ui_loadStudsTbl(students,"searchStud");
+				console.log(response);
+			},
+			error: function(response){
+				ui_alert(0,response.responseText);
+				console.log(response);
+			}
+		})
+	}
+	
+	function ui_buildTblLinks(page,callbackFunc){
+		
+		var tblLinks = $("#tblLinks");
+		var dataPerPage = 15;
+		
+		if(typeof(page) === "object"){
+			var startPos = $(page).attr("data");
+			page = page.text;
+			if(page.toUpperCase() === "PREV"){
+				startPos = parseInt($("#tblLinks .curr-tbl-link").attr("data")) - dataPerPage;
+				page = parseInt($("#tblLinks .curr-tbl-link").text()) - 1;
+			}else if(page.toUpperCase() === "NEXT"){
+				startPos = parseInt($("#tblLinks .curr-tbl-link").attr("data")) + dataPerPage;
+				page = parseInt($("#tblLinks .curr-tbl-link").text()) + 1;
+			}
+
+			if(callbackFunc === "loadStuds"){
+				loadStuds(startPos);	
+			}else{
+				var searchDetail = {
+					'startPos': startPos
+				};
+				searchStud(searchDetail);
+			}
+		}
+
+		$("#tblLinks").html(" ");
+		var pageCount = Math.floor(studCountTotal / dataPerPage);
+			if(pageCount % dataPerPage != 0)
+				pageCount++;
+
+		if(pageCount > 1){
+
+			if(page > 1){
+				var prev = $("<a class='tblLink' style='cursor:pointer;' data='prev'>Prev</a>");
+				tblLinks.append(prev);
+			}
+			var startPos = 0;		
+
+			for(var x=1; x<=pageCount; x++){
+				var link;
+				if(x == page){
+					link = $("<a class='tblLink curr-tbl-link " + callbackFunc + "' style='cursor:pointer;' data='"+startPos+"'>" +x+ "</a>");
+				}else{
+					link = $("<a class='tblLink " + callbackFunc + "' style='cursor:pointer;' data='"+startPos+"'>" +x+ "</a>");
+				}
+
+				startPos += dataPerPage;
+				tblLinks.append(link);
+			}
+
+			if(page < pageCount){
+				var next = $("<a class='tblLink' style='cursor:pointer;' data='next'>Next</a>");
+				tblLinks.append(next);
+			}
+			$(".tblLink").on({
+				click: function(){
+					ui_buildTblLinks(this,callbackFunc);
+				}
+			})
+		}
+
+	}
+
+	function ui_loadStudsTbl(students,callbackFunc){
 		ui_resetStudsTbl();
 		var tbl = $("#studListTable");
 		for(var x=0; x<students.length; x++){
@@ -436,7 +595,24 @@
 			tbl.append(tRow);
 		}
 		attachTblHandlers();
+		ui_buildTblLinks(1,callbackFunc)
 	} 
+
+	function getStudCount(){
+		$.ajax({
+			url: controllerName + "/getStudCount",
+			method: "GET",
+			cache: false,
+			async: false,
+			success: function(response){
+				studCountTotal = JSON.parse(response)
+				studCountTotal = studCountTotal['studCount'];
+			},
+			error: function(response){
+				ui_alert(0,response.responseText);
+			}
+		})
+	}
 
 	function ui_resetStudsTbl(){
 		$("#studListTable").html(" ");

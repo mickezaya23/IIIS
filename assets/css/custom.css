@@ -242,10 +242,26 @@
 }
 
 .defaultTable td{
-	text-align: center;
+	text-align: left;
 	border: solid 1px silver;
 }
 
 .actions-menu{
 	margin-left: 3px;
+}
+
+#tblLinks{
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.tblLink{
+	font-size: 1.3em;
+	padding: 5px 5px;
+}
+
+.curr-tbl-link{
+	font-weight: bold;
+	color: red;
 }
